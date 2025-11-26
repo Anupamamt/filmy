@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: filmy_backend
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+      - media_data:/app/media
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+  nginx:
+      image: nginx:latest
+      container_name: video_nginx
+      ports:
+        - "80:80"
+      volumes:
+        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        - static_data:/app/static
+        - media_data:/app/media
+        - ./frontend/dist:/usr/share/nginx/html
+      depends_on:
+        - backend
+
+  db:
+    image: mysql:8.0
+    container_name: filmy_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  frontend:
+    build:
+      context: ./frontend
+    container_name: filmy_frontend
+    command: npm run preview -- --host 0.0.0.0
+    ports:
+      - "4173:4173"
+    environment:
+      - NODE_ENV=production
+
+
+
+volumes:
+  db_data:
+  media_data:
+  static_data:

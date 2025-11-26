@@ -1,0 +1,21 @@
+# Python / Django ignores (in case someone runs backend here)
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker
+*.pid
+*.seed
+*.bak
+
+# System / Misc
+.DS_Store
+Thumbs.db
+
+# Virtual env (if created at root)
+venv/
+env/
+
+# Environment
+.env
+.env.*
