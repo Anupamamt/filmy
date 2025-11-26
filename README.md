@@ -1,6 +1,6 @@
 #Mini Video Streaming Platform
 
-    A lightweight OTT-style Movie watching platform built with Django (REST API), React, PostgreSQL, Nginx, and Docker Compose.
+    A lightweight OTT-style Movie watching platform built with Django (REST API), React, MySQL, Nginx, and Docker Compose.
     The application streams videos stored on the server, auto‑plays videos, and provides a smooth browsing experience using a modern UI.
 
 #Features
@@ -185,8 +185,7 @@
     docker exec -it filmy_backend bash
 
         python manage.py migrate
-        python manage.py createsuperuser
-        python manage.py initial_database
+        python manage.py createsuperuser - username:admin password:admin123(use this credential to login)
 
     3. Access:
 
@@ -195,5 +194,7 @@
         Backend API → http://localhost/api/
 
         Admin Panel → http://localhost:8000/admin/
+
+    4. Add categories and videos through admin panel
     
 
